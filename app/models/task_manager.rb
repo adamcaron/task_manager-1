@@ -10,8 +10,13 @@ class TaskManager
   end
 
   def self.create(task)
-    dataset.insert(title: task[:title],
-                                  description: task[:description])
+    begin
+      dataset.insert(title: task[:title],
+                                    description: task[:description])
+    rescue
+      return false
+    end
+    Task.new(dataset.to_a.last)
     #   database.transaction do
     #     database['tasks'] ||= []
     #     database['total'] ||= 0
@@ -22,11 +27,11 @@ class TaskManager
     # end
   end
 
-  def self.raw_tasks
-    database.transaction do
-      database['tasks'] || []
-    end
-  end
+  # def self.raw_tasks
+  #   database.transaction do
+  #     database['tasks'] || []
+  #   end
+  # end
 
   def self.all
     dataset.to_a.map  { |data| Task.new(data) }
@@ -42,12 +47,13 @@ class TaskManager
     # Task.new(raw_task(id))
   end
 
-  def self.update(id, task)
-    database.transaction do
-      target = database["tasks"].find { |data| data["id"] == id }
-      target["title"] = task[:title]
-      target["description"] = task[:description]
-    end
+  def self.update(id, task={})
+    target = dataset.where(id: id).update(task)
+    # database.transaction do
+    #   target = database["tasks"].find { |data| data["id"] == id }
+    #   target["title"] = task[:title]
+    #   target["description"] = task[:description]
+    # end
   end
 
   def self.delete(id)
