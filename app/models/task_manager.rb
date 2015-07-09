@@ -53,9 +53,10 @@ class TaskManager
   end
 
   def self.delete_all
-    database.transaction do
-      database["tasks"] = []
-      database["total"] = 0
-    end
+    database.from(:tasks).delete
+    # database.transaction do
+    #   database["tasks"] = []
+    #   database["total"] = 0
+    # end
   end
 end
