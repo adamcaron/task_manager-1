@@ -29,7 +29,7 @@ class TaskManager
   end
 
   def self.all
-
+    database.from(:tasks).to_a.map  { |data| Task.new(data) }
     # raw_tasks.map { |data| Task.new(data) }
   end
 
