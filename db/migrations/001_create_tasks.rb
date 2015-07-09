@@ -11,3 +11,9 @@ environments.each do |env|
   end
   puts "creating tasks table for #{env}"
 end
+
+# only way to hit both environments in one call is to loop
+# through and just change the file names
+# otherwise we are only getting one of them and would have to do two migrations
+
+# important to understand that the test and the development environment are independent
