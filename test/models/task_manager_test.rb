@@ -42,14 +42,13 @@ class TaskManagerTest < Minitest::Test
   end
 
   def test_it_deletes_a_task
-    TaskManager.create({ :title       => "a title",
-                         :description => "a description"})
-
-    TaskManager.create({ :title       => "a second title",
-                         :description => "a second description"})
+    2.times do
+      TaskManager.create({ :title       => "a title",
+                           :description => "a description"})
+    end
 
     total = TaskManager.all.count
-    TaskManager.delete(1)
+    TaskManager.delete(TaskManager.all.first.id)
     assert_equal (total - 1), TaskManager.all.count
   end
 end
