@@ -1,5 +1,3 @@
-require 'yaml/store'
-
 class TaskManager
   def self.database
     if ENV["TASK_MANAGER_ENV"] == 'test'
