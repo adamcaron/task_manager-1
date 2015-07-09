@@ -50,9 +50,10 @@ class TaskManager
   end
 
   def self.delete(id)
-    database.transaction do
-      database["tasks"].delete_if { |task| task["id"] == id }
-    end
+    dataset.where(id: id).delete
+    # database.transaction do
+    #   database["tasks"].delete_if { |task| task["id"] == id }
+    # end
   end
 
   def self.delete_all
